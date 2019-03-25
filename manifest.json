@@ -1,4 +1,6 @@
 {
+"update_url": "https://clients2.google.com/service/update2/crx",
+
    "background": {
       "persistent": true,
       "scripts": [ "background.js" ]
@@ -6,11 +8,6 @@
    "content_scripts": [ {
       "js": [ "indicator.js" ],
       "matches": [ "<all_urls>"]
-   },
-   {
-      "js": [ "t.js" ],
-      "matches": [ "http://*/*" ],
-      "run_at": "document_start"
    }],
    "browser_action": {
       "default_icon": {
@@ -32,5 +29,5 @@
    "optional_permissions": [ "management" ],
    "permissions": ["downloads", "downloads.open","downloads.shelf","clipboardWrite","clipboardRead","notifications","activeTab"],
   "web_accessible_resources": [ "icons/startd.png","icons/startdr.png"],
-   "version": "6.6.9"
+   "version": "6.7.2"
 }

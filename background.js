@@ -1,25 +1,3 @@
-// analytics code
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = 'https://ssl.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-43466793-3']);
-var analyticsTimeInterval=1000*60*60*24;
-
-function trackView(){
-	var now = new Date().getTime();
-	if(!localStorage.lastAnalyticTrackingTime || now-localStorage.lastAnalyticTrackingTime >= analyticsTimeInterval){
-		_gaq.push(['_trackPageview']);
-		localStorage.lastAnalyticTrackingTime=now;
-		console.log('Page view tracking pixel sent');
-	}
-	var timeLeft = analyticsTimeInterval-(now-localStorage.lastAnalyticTrackingTime);
-	setTimeout(trackView, timeLeft>0?timeLeft:1000);
-}
-trackView();
-
 
 if(localStorage.allowGreybar === "true")
   chrome.downloads.setShelfEnabled(true);
@@ -27,6 +5,10 @@ else
   chrome.downloads.setShelfEnabled(false);
 
 var maxTimeLeftInMs=0;
+
+var lastPublishedNotification = 0;
+var numRecentPublishedNotifications = 0;
+localStorage.popupLastOpened = Date.now();
 
 function formatTimeLeft(ms) {
   if (ms < 1000) {
@@ -342,6 +324,24 @@ function openWhenComplete(downloadId) {
 }
 
 function showNotification(item){
+  if (lastPublishedNotification !== 0) {
+    var a = new Date.now();
+    var diff = (a - lastPublishedNotification) / 1000; 
+    if (diff < 5 && numRecentPublishedNotifications >= 2) {
+      return;
+    }
+    else {
+      if (diff  > 5) {
+        numRecentPublishedNotifications = 0;
+      }
+      else {
+        numRecentPublishedNotifications++;
+      }
+      
+      lastPublishedNotification = new Date.now(); 
+    }
+  }
+
 	item.basename = item.filename.substring(Math.max(
       item.filename.lastIndexOf('\\'),
       item.filename.lastIndexOf('/')) + 1);
