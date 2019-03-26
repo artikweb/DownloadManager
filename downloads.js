@@ -83,13 +83,3 @@ $(document).ready(function () {
 };
 
 
-function OpenFileNotWorking(){
-    try{
-        document.getElementById('chrome-beta-link').onclick=function(){
-            var p = document.getElementById('chrome-beta-text');
-            if(p.style.display=='none') p.style.display='inline-block';
-            else p.style.display='none';  
-        }    
-
-    }catch(e){}
-}
