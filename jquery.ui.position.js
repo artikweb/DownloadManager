@@ -1,1 +1,513 @@
-!function(t,i){function e(t,i,e){return[parseInt(t[0],10)*(d.test(t[0])?i/100:1),parseInt(t[1],10)*(d.test(t[1])?e/100:1)]}function o(i,e){return parseInt(t.css(i,e),10)||0}function n(i){var e=i[0];return 9===e.nodeType?{width:i.width(),height:i.height(),offset:{top:0,left:0}}:t.isWindow(e)?{width:i.width(),height:i.height(),offset:{top:i.scrollTop(),left:i.scrollLeft()}}:e.preventDefault?{width:0,height:0,offset:{top:e.pageY,left:e.pageX}}:{width:i.outerWidth(),height:i.outerHeight(),offset:i.offset()}}t.ui=t.ui||{};var l,s=Math.max,f=Math.abs,h=Math.round,r=/left|center|right/,p=/top|center|bottom/,c=/[\+\-]\d+%?/,a=/^\w+/,d=/%$/,g=t.fn.position;t.position={scrollbarWidth:function(){if(l!==i)return l;var e,o,n=t("<div style='display:block;width:50px;height:50px;overflow:hidden;'><div style='height:100px;width:auto;'></div></div>"),s=n.children()[0];return t("body").append(n),e=s.offsetWidth,n.css("overflow","scroll"),o=s.offsetWidth,e===o&&(o=n[0].clientWidth),n.remove(),l=e-o},getScrollInfo:function(i){var e=i.isWindow?"":i.element.css("overflow-x"),o=i.isWindow?"":i.element.css("overflow-y"),n="scroll"===e||"auto"===e&&i.width<i.element[0].scrollWidth,l="scroll"===o||"auto"===o&&i.height<i.element[0].scrollHeight;return{width:n?t.position.scrollbarWidth():0,height:l?t.position.scrollbarWidth():0}},getWithinInfo:function(i){var e=t(i||window),o=t.isWindow(e[0]);return{element:e,isWindow:o,offset:e.offset()||{left:0,top:0},scrollLeft:e.scrollLeft(),scrollTop:e.scrollTop(),width:o?e.width():e.outerWidth(),height:o?e.height():e.outerHeight()}}},t.fn.position=function(i){if(!i||!i.of)return g.apply(this,arguments);i=t.extend({},i);var l,d,u,m,w,W,v=t(i.of),y=t.position.getWithinInfo(i.within),b=t.position.getScrollInfo(y),H=(i.collision||"flip").split(" "),x={};return W=n(v),v[0].preventDefault&&(i.at="left top"),d=W.width,u=W.height,m=W.offset,w=t.extend({},m),t.each(["my","at"],function(){var t,e,o=(i[this]||"").split(" ");1===o.length&&(o=r.test(o[0])?o.concat(["center"]):p.test(o[0])?["center"].concat(o):["center","center"]),o[0]=r.test(o[0])?o[0]:"center",o[1]=p.test(o[1])?o[1]:"center",t=c.exec(o[0]),e=c.exec(o[1]),x[this]=[t?t[0]:0,e?e[0]:0],i[this]=[a.exec(o[0])[0],a.exec(o[1])[0]]}),1===H.length&&(H[1]=H[0]),"right"===i.at[0]?w.left+=d:"center"===i.at[0]&&(w.left+=d/2),"bottom"===i.at[1]?w.top+=u:"center"===i.at[1]&&(w.top+=u/2),l=e(x.at,d,u),w.left+=l[0],w.top+=l[1],this.each(function(){var n,r,p=t(this),c=p.outerWidth(),a=p.outerHeight(),g=o(this,"marginLeft"),W=o(this,"marginTop"),T=c+g+o(this,"marginRight")+b.width,L=a+W+o(this,"marginBottom")+b.height,I=t.extend({},w),P=e(x.my,p.outerWidth(),p.outerHeight());"right"===i.my[0]?I.left-=c:"center"===i.my[0]&&(I.left-=c/2),"bottom"===i.my[1]?I.top-=a:"center"===i.my[1]&&(I.top-=a/2),I.left+=P[0],I.top+=P[1],t.support.offsetFractions||(I.left=h(I.left),I.top=h(I.top)),n={marginLeft:g,marginTop:W},t.each(["left","top"],function(e,o){t.ui.position[H[e]]&&t.ui.position[H[e]][o](I,{targetWidth:d,targetHeight:u,elemWidth:c,elemHeight:a,collisionPosition:n,collisionWidth:T,collisionHeight:L,offset:[l[0]+P[0],l[1]+P[1]],my:i.my,at:i.at,within:y,elem:p})}),i.using&&(r=function(t){var e=m.left-I.left,o=e+d-c,n=m.top-I.top,l=n+u-a,h={target:{element:v,left:m.left,top:m.top,width:d,height:u},element:{element:p,left:I.left,top:I.top,width:c,height:a},horizontal:0>o?"left":e>0?"right":"center",vertical:0>l?"top":n>0?"bottom":"middle"};c>d&&f(e+o)<d&&(h.horizontal="center"),a>u&&f(n+l)<u&&(h.vertical="middle"),h.important=s(f(e),f(o))>s(f(n),f(l))?"horizontal":"vertical",i.using.call(this,t,h)}),p.offset(t.extend(I,{using:r}))})},t.ui.position={fit:{left:function(t,i){var e,o=i.within,n=o.isWindow?o.scrollLeft:o.offset.left,l=o.width,f=t.left-i.collisionPosition.marginLeft,h=n-f,r=f+i.collisionWidth-l-n;i.collisionWidth>l?h>0&&0>=r?(e=t.left+h+i.collisionWidth-l-n,t.left+=h-e):t.left=r>0&&0>=h?n:h>r?n+l-i.collisionWidth:n:h>0?t.left+=h:r>0?t.left-=r:t.left=s(t.left-f,t.left)},top:function(t,i){var e,o=i.within,n=o.isWindow?o.scrollTop:o.offset.top,l=i.within.height,f=t.top-i.collisionPosition.marginTop,h=n-f,r=f+i.collisionHeight-l-n;i.collisionHeight>l?h>0&&0>=r?(e=t.top+h+i.collisionHeight-l-n,t.top+=h-e):t.top=r>0&&0>=h?n:h>r?n+l-i.collisionHeight:n:h>0?t.top+=h:r>0?t.top-=r:t.top=s(t.top-f,t.top)}},flip:{left:function(t,i){var e,o,n=i.within,l=n.offset.left+n.scrollLeft,s=n.width,h=n.isWindow?n.scrollLeft:n.offset.left,r=t.left-i.collisionPosition.marginLeft,p=r-h,c=r+i.collisionWidth-s-h,a="left"===i.my[0]?-i.elemWidth:"right"===i.my[0]?i.elemWidth:0,d="left"===i.at[0]?i.targetWidth:"right"===i.at[0]?-i.targetWidth:0,g=-2*i.offset[0];0>p?(e=t.left+a+d+g+i.collisionWidth-s-l,(0>e||e<f(p))&&(t.left+=a+d+g)):c>0&&(o=t.left-i.collisionPosition.marginLeft+a+d+g-h,(o>0||f(o)<c)&&(t.left+=a+d+g))},top:function(t,i){var e,o,n=i.within,l=n.offset.top+n.scrollTop,s=n.height,h=n.isWindow?n.scrollTop:n.offset.top,r=t.top-i.collisionPosition.marginTop,p=r-h,c=r+i.collisionHeight-s-h,a="top"===i.my[1],d=a?-i.elemHeight:"bottom"===i.my[1]?i.elemHeight:0,g="top"===i.at[1]?i.targetHeight:"bottom"===i.at[1]?-i.targetHeight:0,u=-2*i.offset[1];0>p?(o=t.top+d+g+u+i.collisionHeight-s-l,t.top+d+g+u>p&&(0>o||o<f(p))&&(t.top+=d+g+u)):c>0&&(e=t.top-i.collisionPosition.marginTop+d+g+u-h,t.top+d+g+u>c&&(e>0||f(e)<c)&&(t.top+=d+g+u))}},flipfit:{left:function(){t.ui.position.flip.left.apply(this,arguments),t.ui.position.fit.left.apply(this,arguments)},top:function(){t.ui.position.flip.top.apply(this,arguments),t.ui.position.fit.top.apply(this,arguments)}}},function(){var i,e,o,n,l,s=document.getElementsByTagName("body")[0],f=document.createElement("div");i=document.createElement(s?"div":"body"),o={visibility:"hidden",width:0,height:0,border:0,margin:0,background:"none"},s&&t.extend(o,{position:"absolute",left:"-1000px",top:"-1000px"});for(l in o)i.style[l]=o[l];i.appendChild(f),e=s||document.documentElement,e.insertBefore(i,e.firstChild),f.style.cssText="position: absolute; left: 10.7432222px;",n=t(f).offset().left,t.support.offsetFractions=n>10&&11>n,i.innerHTML="",e.removeChild(i)}()}(jQuery);
+/*! jQuery UI - v1.12.1 - 2016-09-16
+ * http://jqueryui.com
+ * Includes: position.js
+ * Copyright jQuery Foundation and other contributors; Licensed MIT */
+
+(function( factory ) {
+    if ( typeof define === "function" && define.amd ) {
+
+        // AMD. Register as an anonymous module.
+        define([ "jquery" ], factory );
+    } else {
+
+        // Browser globals
+        factory( jQuery );
+    }
+}(function( $ ) {
+
+    $.ui = $.ui || {};
+
+    var version = $.ui.version = "1.12.1";
+
+
+    /*!
+     * jQuery UI Position 1.12.1
+     * http://jqueryui.com
+     *
+     * Copyright jQuery Foundation and other contributors
+     * Released under the MIT license.
+     * http://jquery.org/license
+     *
+     * http://api.jqueryui.com/position/
+     */
+
+//>>label: Position
+//>>group: Core
+//>>description: Positions elements relative to other elements.
+//>>docs: http://api.jqueryui.com/position/
+//>>demos: http://jqueryui.com/position/
+
+
+    ( function() {
+        var cachedScrollbarWidth,
+            max = Math.max,
+            abs = Math.abs,
+            rhorizontal = /left|center|right/,
+            rvertical = /top|center|bottom/,
+            roffset = /[\+\-]\d+(\.[\d]+)?%?/,
+            rposition = /^\w+/,
+            rpercent = /%$/,
+            _position = $.fn.position;
+
+        function getOffsets( offsets, width, height ) {
+            return [
+                parseFloat( offsets[ 0 ] ) * ( rpercent.test( offsets[ 0 ] ) ? width / 100 : 1 ),
+                parseFloat( offsets[ 1 ] ) * ( rpercent.test( offsets[ 1 ] ) ? height / 100 : 1 )
+            ];
+        }
+
+        function parseCss( element, property ) {
+            return parseInt( $.css( element, property ), 10 ) || 0;
+        }
+
+        function getDimensions( elem ) {
+            var raw = elem[ 0 ];
+            if ( raw.nodeType === 9 ) {
+                return {
+                    width: elem.width(),
+                    height: elem.height(),
+                    offset: { top: 0, left: 0 }
+                };
+            }
+            if ( $.isWindow( raw ) ) {
+                return {
+                    width: elem.width(),
+                    height: elem.height(),
+                    offset: { top: elem.scrollTop(), left: elem.scrollLeft() }
+                };
+            }
+            if ( raw.preventDefault ) {
+                return {
+                    width: 0,
+                    height: 0,
+                    offset: { top: raw.pageY, left: raw.pageX }
+                };
+            }
+            return {
+                width: elem.outerWidth(),
+                height: elem.outerHeight(),
+                offset: elem.offset()
+            };
+        }
+
+        $.position = {
+            scrollbarWidth: function() {
+                if ( cachedScrollbarWidth !== undefined ) {
+                    return cachedScrollbarWidth;
+                }
+                var w1, w2,
+                    div = $( "<div " +
+                        "style='display:block;position:absolute;width:50px;height:50px;overflow:hidden;'>" +
+                        "<div style='height:100px;width:auto;'></div></div>" ),
+                    innerDiv = div.children()[ 0 ];
+
+                $( "body" ).append( div );
+                w1 = innerDiv.offsetWidth;
+                div.css( "overflow", "scroll" );
+
+                w2 = innerDiv.offsetWidth;
+
+                if ( w1 === w2 ) {
+                    w2 = div[ 0 ].clientWidth;
+                }
+
+                div.remove();
+
+                return ( cachedScrollbarWidth = w1 - w2 );
+            },
+            getScrollInfo: function( within ) {
+                var overflowX = within.isWindow || within.isDocument ? "" :
+                        within.element.css( "overflow-x" ),
+                    overflowY = within.isWindow || within.isDocument ? "" :
+                        within.element.css( "overflow-y" ),
+                    hasOverflowX = overflowX === "scroll" ||
+                        ( overflowX === "auto" && within.width < within.element[ 0 ].scrollWidth ),
+                    hasOverflowY = overflowY === "scroll" ||
+                        ( overflowY === "auto" && within.height < within.element[ 0 ].scrollHeight );
+                return {
+                    width: hasOverflowY ? $.position.scrollbarWidth() : 0,
+                    height: hasOverflowX ? $.position.scrollbarWidth() : 0
+                };
+            },
+            getWithinInfo: function( element ) {
+                var withinElement = $( element || window ),
+                    isWindow = $.isWindow( withinElement[ 0 ] ),
+                    isDocument = !!withinElement[ 0 ] && withinElement[ 0 ].nodeType === 9,
+                    hasOffset = !isWindow && !isDocument;
+                return {
+                    element: withinElement,
+                    isWindow: isWindow,
+                    isDocument: isDocument,
+                    offset: hasOffset ? $( element ).offset() : { left: 0, top: 0 },
+                    scrollLeft: withinElement.scrollLeft(),
+                    scrollTop: withinElement.scrollTop(),
+                    width: withinElement.outerWidth(),
+                    height: withinElement.outerHeight()
+                };
+            }
+        };
+
+        $.fn.position = function( options ) {
+            if ( !options || !options.of ) {
+                return _position.apply( this, arguments );
+            }
+
+            // Make a copy, we don't want to modify arguments
+            options = $.extend( {}, options );
+
+            var atOffset, targetWidth, targetHeight, targetOffset, basePosition, dimensions,
+                target = $( options.of ),
+                within = $.position.getWithinInfo( options.within ),
+                scrollInfo = $.position.getScrollInfo( within ),
+                collision = ( options.collision || "flip" ).split( " " ),
+                offsets = {};
+
+            dimensions = getDimensions( target );
+            if ( target[ 0 ].preventDefault ) {
+
+                // Force left top to allow flipping
+                options.at = "left top";
+            }
+            targetWidth = dimensions.width;
+            targetHeight = dimensions.height;
+            targetOffset = dimensions.offset;
+
+            // Clone to reuse original targetOffset later
+            basePosition = $.extend( {}, targetOffset );
+
+            // Force my and at to have valid horizontal and vertical positions
+            // if a value is missing or invalid, it will be converted to center
+            $.each( [ "my", "at" ], function() {
+                var pos = ( options[ this ] || "" ).split( " " ),
+                    horizontalOffset,
+                    verticalOffset;
+
+                if ( pos.length === 1 ) {
+                    pos = rhorizontal.test( pos[ 0 ] ) ?
+                        pos.concat( [ "center" ] ) :
+                        rvertical.test( pos[ 0 ] ) ?
+                            [ "center" ].concat( pos ) :
+                            [ "center", "center" ];
+                }
+                pos[ 0 ] = rhorizontal.test( pos[ 0 ] ) ? pos[ 0 ] : "center";
+                pos[ 1 ] = rvertical.test( pos[ 1 ] ) ? pos[ 1 ] : "center";
+
+                // Calculate offsets
+                horizontalOffset = roffset.exec( pos[ 0 ] );
+                verticalOffset = roffset.exec( pos[ 1 ] );
+                offsets[ this ] = [
+                    horizontalOffset ? horizontalOffset[ 0 ] : 0,
+                    verticalOffset ? verticalOffset[ 0 ] : 0
+                ];
+
+                // Reduce to just the positions without the offsets
+                options[ this ] = [
+                    rposition.exec( pos[ 0 ] )[ 0 ],
+                    rposition.exec( pos[ 1 ] )[ 0 ]
+                ];
+            } );
+
+            // Normalize collision option
+            if ( collision.length === 1 ) {
+                collision[ 1 ] = collision[ 0 ];
+            }
+
+            if ( options.at[ 0 ] === "right" ) {
+                basePosition.left += targetWidth;
+            } else if ( options.at[ 0 ] === "center" ) {
+                basePosition.left += targetWidth / 2;
+            }
+
+            if ( options.at[ 1 ] === "bottom" ) {
+                basePosition.top += targetHeight;
+            } else if ( options.at[ 1 ] === "center" ) {
+                basePosition.top += targetHeight / 2;
+            }
+
+            atOffset = getOffsets( offsets.at, targetWidth, targetHeight );
+            basePosition.left += atOffset[ 0 ];
+            basePosition.top += atOffset[ 1 ];
+
+            return this.each( function() {
+                var collisionPosition, using,
+                    elem = $( this ),
+                    elemWidth = elem.outerWidth(),
+                    elemHeight = elem.outerHeight(),
+                    marginLeft = parseCss( this, "marginLeft" ),
+                    marginTop = parseCss( this, "marginTop" ),
+                    collisionWidth = elemWidth + marginLeft + parseCss( this, "marginRight" ) +
+                        scrollInfo.width,
+                    collisionHeight = elemHeight + marginTop + parseCss( this, "marginBottom" ) +
+                        scrollInfo.height,
+                    position = $.extend( {}, basePosition ),
+                    myOffset = getOffsets( offsets.my, elem.outerWidth(), elem.outerHeight() );
+
+                if ( options.my[ 0 ] === "right" ) {
+                    position.left -= elemWidth;
+                } else if ( options.my[ 0 ] === "center" ) {
+                    position.left -= elemWidth / 2;
+                }
+
+                if ( options.my[ 1 ] === "bottom" ) {
+                    position.top -= elemHeight;
+                } else if ( options.my[ 1 ] === "center" ) {
+                    position.top -= elemHeight / 2;
+                }
+
+                position.left += myOffset[ 0 ];
+                position.top += myOffset[ 1 ];
+
+                collisionPosition = {
+                    marginLeft: marginLeft,
+                    marginTop: marginTop
+                };
+
+                $.each( [ "left", "top" ], function( i, dir ) {
+                    if ( $.ui.position[ collision[ i ] ] ) {
+                        $.ui.position[ collision[ i ] ][ dir ]( position, {
+                            targetWidth: targetWidth,
+                            targetHeight: targetHeight,
+                            elemWidth: elemWidth,
+                            elemHeight: elemHeight,
+                            collisionPosition: collisionPosition,
+                            collisionWidth: collisionWidth,
+                            collisionHeight: collisionHeight,
+                            offset: [ atOffset[ 0 ] + myOffset[ 0 ], atOffset [ 1 ] + myOffset[ 1 ] ],
+                            my: options.my,
+                            at: options.at,
+                            within: within,
+                            elem: elem
+                        } );
+                    }
+                } );
+
+                if ( options.using ) {
+
+                    // Adds feedback as second argument to using callback, if present
+                    using = function( props ) {
+                        var left = targetOffset.left - position.left,
+                            right = left + targetWidth - elemWidth,
+                            top = targetOffset.top - position.top,
+                            bottom = top + targetHeight - elemHeight,
+                            feedback = {
+                                target: {
+                                    element: target,
+                                    left: targetOffset.left,
+                                    top: targetOffset.top,
+                                    width: targetWidth,
+                                    height: targetHeight
+                                },
+                                element: {
+                                    element: elem,
+                                    left: position.left,
+                                    top: position.top,
+                                    width: elemWidth,
+                                    height: elemHeight
+                                },
+                                horizontal: right < 0 ? "left" : left > 0 ? "right" : "center",
+                                vertical: bottom < 0 ? "top" : top > 0 ? "bottom" : "middle"
+                            };
+                        if ( targetWidth < elemWidth && abs( left + right ) < targetWidth ) {
+                            feedback.horizontal = "center";
+                        }
+                        if ( targetHeight < elemHeight && abs( top + bottom ) < targetHeight ) {
+                            feedback.vertical = "middle";
+                        }
+                        if ( max( abs( left ), abs( right ) ) > max( abs( top ), abs( bottom ) ) ) {
+                            feedback.important = "horizontal";
+                        } else {
+                            feedback.important = "vertical";
+                        }
+                        options.using.call( this, props, feedback );
+                    };
+                }
+
+                elem.offset( $.extend( position, { using: using } ) );
+            } );
+        };
+
+        $.ui.position = {
+            fit: {
+                left: function( position, data ) {
+                    var within = data.within,
+                        withinOffset = within.isWindow ? within.scrollLeft : within.offset.left,
+                        outerWidth = within.width,
+                        collisionPosLeft = position.left - data.collisionPosition.marginLeft,
+                        overLeft = withinOffset - collisionPosLeft,
+                        overRight = collisionPosLeft + data.collisionWidth - outerWidth - withinOffset,
+                        newOverRight;
+
+                    // Element is wider than within
+                    if ( data.collisionWidth > outerWidth ) {
+
+                        // Element is initially over the left side of within
+                        if ( overLeft > 0 && overRight <= 0 ) {
+                            newOverRight = position.left + overLeft + data.collisionWidth - outerWidth -
+                                withinOffset;
+                            position.left += overLeft - newOverRight;
+
+                            // Element is initially over right side of within
+                        } else if ( overRight > 0 && overLeft <= 0 ) {
+                            position.left = withinOffset;
+
+                            // Element is initially over both left and right sides of within
+                        } else {
+                            if ( overLeft > overRight ) {
+                                position.left = withinOffset + outerWidth - data.collisionWidth;
+                            } else {
+                                position.left = withinOffset;
+                            }
+                        }
+
+                        // Too far left -> align with left edge
+                    } else if ( overLeft > 0 ) {
+                        position.left += overLeft;
+
+                        // Too far right -> align with right edge
+                    } else if ( overRight > 0 ) {
+                        position.left -= overRight;
+
+                        // Adjust based on position and margin
+                    } else {
+                        position.left = max( position.left - collisionPosLeft, position.left );
+                    }
+                },
+                top: function( position, data ) {
+                    var within = data.within,
+                        withinOffset = within.isWindow ? within.scrollTop : within.offset.top,
+                        outerHeight = data.within.height,
+                        collisionPosTop = position.top - data.collisionPosition.marginTop,
+                        overTop = withinOffset - collisionPosTop,
+                        overBottom = collisionPosTop + data.collisionHeight - outerHeight - withinOffset,
+                        newOverBottom;
+
+                    // Element is taller than within
+                    if ( data.collisionHeight > outerHeight ) {
+
+                        // Element is initially over the top of within
+                        if ( overTop > 0 && overBottom <= 0 ) {
+                            newOverBottom = position.top + overTop + data.collisionHeight - outerHeight -
+                                withinOffset;
+                            position.top += overTop - newOverBottom;
+
+                            // Element is initially over bottom of within
+                        } else if ( overBottom > 0 && overTop <= 0 ) {
+                            position.top = withinOffset;
+
+                            // Element is initially over both top and bottom of within
+                        } else {
+                            if ( overTop > overBottom ) {
+                                position.top = withinOffset + outerHeight - data.collisionHeight;
+                            } else {
+                                position.top = withinOffset;
+                            }
+                        }
+
+                        // Too far up -> align with top
+                    } else if ( overTop > 0 ) {
+                        position.top += overTop;
+
+                        // Too far down -> align with bottom edge
+                    } else if ( overBottom > 0 ) {
+                        position.top -= overBottom;
+
+                        // Adjust based on position and margin
+                    } else {
+                        position.top = max( position.top - collisionPosTop, position.top );
+                    }
+                }
+            },
+            flip: {
+                left: function( position, data ) {
+                    var within = data.within,
+                        withinOffset = within.offset.left + within.scrollLeft,
+                        outerWidth = within.width,
+                        offsetLeft = within.isWindow ? within.scrollLeft : within.offset.left,
+                        collisionPosLeft = position.left - data.collisionPosition.marginLeft,
+                        overLeft = collisionPosLeft - offsetLeft,
+                        overRight = collisionPosLeft + data.collisionWidth - outerWidth - offsetLeft,
+                        myOffset = data.my[ 0 ] === "left" ?
+                            -data.elemWidth :
+                            data.my[ 0 ] === "right" ?
+                                data.elemWidth :
+                                0,
+                        atOffset = data.at[ 0 ] === "left" ?
+                            data.targetWidth :
+                            data.at[ 0 ] === "right" ?
+                                -data.targetWidth :
+                                0,
+                        offset = -2 * data.offset[ 0 ],
+                        newOverRight,
+                        newOverLeft;
+
+                    if ( overLeft < 0 ) {
+                        newOverRight = position.left + myOffset + atOffset + offset + data.collisionWidth -
+                            outerWidth - withinOffset;
+                        if ( newOverRight < 0 || newOverRight < abs( overLeft ) ) {
+                            position.left += myOffset + atOffset + offset;
+                        }
+                    } else if ( overRight > 0 ) {
+                        newOverLeft = position.left - data.collisionPosition.marginLeft + myOffset +
+                            atOffset + offset - offsetLeft;
+                        if ( newOverLeft > 0 || abs( newOverLeft ) < overRight ) {
+                            position.left += myOffset + atOffset + offset;
+                        }
+                    }
+                },
+                top: function( position, data ) {
+                    var within = data.within,
+                        withinOffset = within.offset.top + within.scrollTop,
+                        outerHeight = within.height,
+                        offsetTop = within.isWindow ? within.scrollTop : within.offset.top,
+                        collisionPosTop = position.top - data.collisionPosition.marginTop,
+                        overTop = collisionPosTop - offsetTop,
+                        overBottom = collisionPosTop + data.collisionHeight - outerHeight - offsetTop,
+                        top = data.my[ 1 ] === "top",
+                        myOffset = top ?
+                            -data.elemHeight :
+                            data.my[ 1 ] === "bottom" ?
+                                data.elemHeight :
+                                0,
+                        atOffset = data.at[ 1 ] === "top" ?
+                            data.targetHeight :
+                            data.at[ 1 ] === "bottom" ?
+                                -data.targetHeight :
+                                0,
+                        offset = -2 * data.offset[ 1 ],
+                        newOverTop,
+                        newOverBottom;
+                    if ( overTop < 0 ) {
+                        newOverBottom = position.top + myOffset + atOffset + offset + data.collisionHeight -
+                            outerHeight - withinOffset;
+                        if ( newOverBottom < 0 || newOverBottom < abs( overTop ) ) {
+                            position.top += myOffset + atOffset + offset;
+                        }
+                    } else if ( overBottom > 0 ) {
+                        newOverTop = position.top - data.collisionPosition.marginTop + myOffset + atOffset +
+                            offset - offsetTop;
+                        if ( newOverTop > 0 || abs( newOverTop ) < overBottom ) {
+                            position.top += myOffset + atOffset + offset;
+                        }
+                    }
+                }
+            },
+            flipfit: {
+                left: function() {
+                    $.ui.position.flip.left.apply( this, arguments );
+                    $.ui.position.fit.left.apply( this, arguments );
+                },
+                top: function() {
+                    $.ui.position.flip.top.apply( this, arguments );
+                    $.ui.position.fit.top.apply( this, arguments );
+                }
+            }
+        };
+
+    } )();
+
+    var position = $.ui.position;
+
+
+
+
+}));

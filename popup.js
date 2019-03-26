@@ -10,6 +10,28 @@ function setLastOpened() {
   chrome.runtime.sendMessage('poll');
 };
 
+function changeCSS(cssFile, cssLinkIndex) {
+
+  var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
+
+  var newlink = document.createElement("link");
+  newlink.setAttribute("rel", "stylesheet");
+  newlink.setAttribute("type", "text/css");
+  newlink.setAttribute("href", cssFile);
+
+  document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
+}
+
+function setPopupColors(){
+	if(localStorage.theme == "light"){
+		changeCSS('css/popup.css',0);
+	} else {
+		changeCSS('css/popup-dark.css',0);
+	}
+}
+
+setPopupColors();
+
 function loadI18nMessages() {
   function setProperty(selector, prop, msg) {
     document.querySelector(selector)[prop] = chrome.i18n.getMessage(msg);
@@ -1061,6 +1083,7 @@ function openSelectedItem(item){
 
 function setup(){
 	document.getElementById('options-open').onclick=function(){
+    console.log("TESTE");
 		var options = document.getElementById('options-pane');
 		if(options.style.visibility === 'visible') {
 			options.style.visibility = 'hidden';

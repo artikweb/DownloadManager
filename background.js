@@ -49,7 +49,7 @@ var lightColors = {
 
 var darkColors = {
   progressColor: '#0d0',
-  arrow: '#333',
+  arrow: '#C0C0C0',
   danger: 'red',
   complete: '#8FED24',
   paused: 'grey',
@@ -59,7 +59,6 @@ var darkColors = {
 }
 
 var colors;
-setColors();
 function setColors(){
 	if(localStorage.theme == "light"){
 		colors = lightColors;
@@ -67,6 +66,8 @@ function setColors(){
 		colors = darkColors;
 	}
 }
+setColors();
+
 function drawLine(ctx, x1, y1, x2, y2) {
   ctx.beginPath();
   ctx.moveTo(x1, y1);

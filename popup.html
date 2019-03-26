@@ -3,12 +3,12 @@
 <head>
   <title></title>
  
+<link rel="stylesheet" type="text/css" href="css/popup.css">
 <script src="jquery.js"></script>
 <script src="jquery.contextMenu.js"></script>
 <script src="jquery.ui.position.js"></script>
  <script src="popup.js"></script>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="css/popup.css">
   <link rel="stylesheet" href="css/font-awesome.min.css"> 
 <link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
   <link rel="icon" href="icon19.png">
@@ -22,7 +22,7 @@
     
     <div id="q-outer">
 	   <div class="search_icon">
-			<img class="top_icon" src="icons/search.png">
+			
 		</div>
 		<div class="search_bar">
 			<input type="search" class="search" id="q" incremental="" placeholder="Search..."><br>&nbsp;
@@ -31,7 +31,7 @@
 
     <div class="top_option">
 <a href="downloads.html#tr" id="translation" target="_blank" >
-  <i class="fa fa-exclamation-triangle fa-lg options_icon"></i>
+  
 </a>
 <a href="#" id="all-downloads" target="_blank" >
   <i class="fa fa-download fa-lg options_icon"></i>
@@ -118,9 +118,9 @@
     </div>
 	
 </div>
-<div class="options" id="options-pane">
+<div class="options" id="options-pane" style="background-color: rgba(0,0,0,.2);">
 <!-- user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close-->
-		<ul  class="dropdown-menu pull-right">
+		<div style="background-color: #fff; color:#000; text-align: right; width:35%;float:right;padding:10px;border-radius: 5%;margin-top: 5px;box-shadow: -7px 7px 18px -5px rgba(0,0,0,0.99);">
 								<li>
 									<a href="#" id="open-folder">
 										<i class="icon-folder-open"></i>
@@ -160,7 +160,7 @@
 										<span id="help-text">Settings</span>
 									</a>
 								</li>
-							</ul>
+							</div>
 		
 </div>
 <span id="text-width-probe"></span>
