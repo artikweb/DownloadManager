@@ -44,7 +44,8 @@
 body {
     width: 400px;
     min-height: 250px;
-    background-color: #fff;
+    background-color: rgb(68, 68, 68)!important;
+    color:#fff!important;
 }
 
 .older {
