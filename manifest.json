@@ -29,5 +29,5 @@
    "optional_permissions": [ "management" ],
    "permissions": ["downloads", "downloads.open","downloads.shelf","clipboardWrite","clipboardRead","notifications","activeTab"],
   "web_accessible_resources": [ "icons/startd.png","icons/startdr.png"],
-   "version": "7.0.1"
+   "version": "1.0.0"
 }

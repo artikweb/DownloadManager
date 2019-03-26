@@ -89,7 +89,7 @@
    },
    "extName": {
       "description": "Extension name", 
-      "message": "Менеджер загрузок"
+      "message": "Менеджер загрузок NG"
    },
    "grantManagementPermission": {
       "description": "",
